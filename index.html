@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#a8d9f4">
+<title>把晴天送给你</title>
+<style>
+:root{--ink:#36566c;--blue:#83c9ef;--cream:#fffdf5}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:var(--ink)}
+body{min-height:100vh;overflow-x:hidden;background:linear-gradient(180deg,#78c6f1 0%,#b7e3f8 48%,#fff1c9 100%);display:flex;align-items:center;justify-content:center;padding:28px 16px;position:relative}
+.sun{position:fixed;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,#fff9d7 0 28%,#fff2b7 42%,#ffe9a0 60%,transparent 72%);top:7%;right:8%;filter:blur(1px);opacity:.9;animation:sunbreath 5s ease-in-out infinite}
+@keyframes sunbreath{50%{transform:scale(1.08);opacity:.72}}
+.cloud{position:fixed;width:180px;height:54px;background:rgba(255,255,255,.82);border-radius:50px;filter:drop-shadow(0 8px 12px rgba(74,145,184,.12));animation:drift linear infinite}
+.cloud:before,.cloud:after{content:"";position:absolute;background:inherit;border-radius:50%}
+.cloud:before{width:78px;height:78px;left:28px;top:-35px}
+.cloud:after{width:100px;height:100px;right:20px;top:-52px}
+.c1{top:19%;left:-220px;animation-duration:48s;transform:scale(.8)}
+.c2{top:67%;left:-240px;animation-duration:62s;animation-delay:-22s;transform:scale(1.05)}
+.c3{top:42%;left:-210px;animation-duration:55s;animation-delay:-35s;transform:scale(.58);opacity:.7}
+@keyframes drift{to{left:110vw}}
+.card{position:relative;z-index:2;width:min(100%,540px);padding:42px 30px 34px;border:1px solid rgba(255,255,255,.75);border-radius:30px;background:rgba(255,255,255,.72);box-shadow:0 22px 70px rgba(54,112,147,.16);backdrop-filter:blur(12px);text-align:center;animation:rise 1.1s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.eyebrow{font-size:12px;letter-spacing:4px;color:#6da9c8;margin-bottom:14px}
+h1{font-size:clamp(30px,7vw,42px);font-weight:600;letter-spacing:3px;margin:0 0 14px;color:#376783}
+.subtitle{font-size:14px;letter-spacing:2px;color:#83a9bb;margin-bottom:28px}
+.divider{width:48px;height:2px;border-radius:2px;background:#f3cf82;margin:0 auto 26px}
+.message{font-size:16px;line-height:2.05;letter-spacing:.4px;margin:0 auto 18px;max-width:420px;color:#496b7e}
+.message strong{font-weight:600;color:#477e9c}
+.wish{margin:26px auto 24px;padding:18px 14px;border-radius:18px;background:rgba(255,255,255,.52);font-size:15px;line-height:1.9;color:#65889a}
+button{border:0;border-radius:999px;padding:13px 27px;background:linear-gradient(135deg,#75c4e9,#9bd7ed);color:white;font-size:15px;letter-spacing:1px;box-shadow:0 8px 18px rgba(87,166,207,.2);cursor:pointer;transition:transform .2s,box-shadow .2s}
+button:active{transform:scale(.97)}
+#surprise{min-height:52px;margin:18px auto 0;font-size:14px;line-height:1.8;color:#6b9bb0;opacity:0;transition:opacity .35s}
+#surprise.show{opacity:1}
+.footer{margin-top:24px;font-size:12px;letter-spacing:2px;color:#9ab8c5}
+.sparkle{position:fixed;color:rgba(255,255,255,.9);font-size:18px;animation:twinkle 3s ease-in-out infinite}
+.s1{top:18%;left:16%}.s2{top:74%;right:13%;animation-delay:1s}.s3{top:48%;right:8%;animation-delay:1.8s}
+@keyframes twinkle{50%{opacity:.25;transform:scale(.75)}}
+@media(max-width:420px){.card{padding:34px 22px 28px;border-radius:25px}.message{font-size:15px}.sun{width:140px;height:140px;right:-10px;top:5%}}
+</style>
+</head>
+<body>
+<div class="sun"></div><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+<div class="sparkle s1">✧</div><div class="sparkle s2">✦</div><div class="sparkle s3">✧</div>
+<main class="card">
+  <div class="eyebrow">A LITTLE GIFT FOR YOU</div>
+  <h1>把晴天送给你</h1>
+  <div class="subtitle">愿你抬头，刚好有云；低头，满是温柔。</div>
+  <div class="divider"></div>
+  <p class="message">愿你抬头时，总能遇见一片好看的<strong>蓝天</strong>；<br>愿云朵慢慢飘，风也轻轻地吹。</p>
+  <p class="message">忙碌的日子里，有喜欢的风景可以停一停，<br>有热乎的饭菜，有舒服的晚风，<br>也有许多不经意的小惊喜。</p>
+  <div class="wish">愿春雨带来新的生机，<br>愿每一个崭新的清晨，都有值得期待的事情。<br><strong>愿你平安，愿你快乐，愿你常常被生活善待。</strong></div>
+  <button id="btn" type="button">收下一朵小小的云 ☁</button>
+  <div id="surprise" aria-live="polite"></div>
+  <div class="footer">今天也要有好天气 · ☀</div>
+</main>
+<script>
+const wishes=[
+"愿今天的风，刚好温柔；愿你的心情，也刚好晴朗。",
+"希望你遇见的每一件小事，都能给生活添一点甜。",
+"累了就看看窗外吧，云会慢慢飘走，好天气也会来的。",
+"愿你有好好吃饭的胃口，也有说走就走看风景的心情。",
+"不必每天都闪闪发光，平平安安、舒舒服服，也很好。",
+"愿接下来的日子，惊喜多一点，烦恼少一点。"
+];
+let last=-1;
+document.getElementById("btn").addEventListener("click",()=>{
+ let i;do{i=Math.floor(Math.random()*wishes.length)}while(i===last);last=i;
+ const box=document.getElementById("surprise");box.textContent=wishes[i];box.classList.remove("show");
+ requestAnimationFrame(()=>box.classList.add("show"));
+});
+</script>
+</body>
+</html>
